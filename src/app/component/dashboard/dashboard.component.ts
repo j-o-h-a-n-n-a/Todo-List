@@ -3,13 +3,13 @@ import { FormsModule } from '@angular/forms';
 import { CrudService } from '../../service/crud.service';
 import { Task } from '../../model/task';
 import { CommonModule } from '@angular/common';
-
+import { TodoListComponent } from '../todo-list/todo-list.component';
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TodoListComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -47,16 +47,19 @@ getAllTasks() {
 }
 
 addTask() {
-  const newTask: Task = {
-    task_name: this.addTaskValue
-  } as Task;
-  
+  if (!this.addTaskValue.trim()) return;
 
-  this.crudService.addTask(newTask).subscribe(res => {
-    this.ngOnInit();
-    this.addTaskValue = '';
-  }, err => {
-    alert(JSON.stringify(err));
+  const newTask: Task = {
+    task_name: this.addTaskValue,
+    completed: false
+  };
+
+  this.crudService.addTask(newTask).subscribe({
+    next: () => {
+      this.getAllTasks();
+      this.addTaskValue = '';
+    },
+    error: err => alert(JSON.stringify(err))
   });
 }
 
@@ -106,13 +109,19 @@ toggleCompleted(task: Task) {
 
 setTask(task: Task) {
   console.log('Setze Task:', task);
-  this.taskObj = {
-    id: task.id,
-    task_name: task.task_name,
-    completed: task.completed
-  };
+  this.taskObj = { ...task };
+}
+   // id: task.id,
+   // task_name: task.task_name,
+   // completed: task.completed
+  // };
   
-  
+  updateTaskName(name: string) {
+    if (this.taskObj) {
+      this.taskObj.task_name = name;
+    }
+  }
 }
 
-}
+
+

@@ -3,7 +3,7 @@
     //task_name : string = '';
 //}
 export class Task {
-    id: number = 0;
+    id?: number;
     task_name: string = '';
     completed: boolean = false;
   }

@@ -1,93 +1,11 @@
-<div class="container-fluid bg-light">
-    <div class="container bg-light">
-        <div class="row mt-4 justify-content-center" style="height: 500px;">
-            <div class="col-md-6 bg-white shadow">
-          <!-- Header -->
-          <div class="card bg-warning d-flex justify-content-center align-items-center" style="height: 80px;">
-            <h2 class="text-white m-0">To Do List</h2>
-          </div>
-  
-          <!-- Neue Aufgabe -->
-          <div class="shadow">
-            <div class="input-group p-4">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Neue Aufgabe"
-                name="task"
-                [(ngModel)]="addTaskValue"
-              />
-              <button class="btn btn-outline-success" type="button" (click)="addTask()">Hinzufügen</button>
-            </div>
-          </div>
-  
-          <!-- Aufgabenliste -->
-          <h4 class="input-group p-4">Aufgaben:</h4>
-          <div style="overflow-y: auto; height: 350px;">
-            <div class="m-3" *ngFor="let task of taskArr">
-              <div class="p-2 shadow border">
-                <div class="d-flex align-items-center justify-content-between px-2">
-                  <!-- Checkbox + Text -->
-                  <div class="d-flex align-items-center flex-grow-1">
-                    <input
-                      type="checkbox"
-                      class="form-check-input me-2"
-                      [(ngModel)]="task.completed"
-                      (change)="toggleCompleted(task)"
-                    />
-                    <span
-                      [class.text-decoration-line-through]="task.completed"
-                      [class.text-muted]="task.completed"
-                    >
-                      {{ task.task_name }}
-                    </span>
-                  </div>
-            
-                  <!-- Buttons -->
-                  <div>
-                    <button
-                      class="btn btn-outline-primary me-2"
-                      (click)="setTask(task)"
-                      data-bs-toggle="modal"
-                      data-bs-target="#editModal"
-                    >
-                      ✏️
-                    </button>
-                    <button
-                      class="btn btn-outline-danger"
-                      (click)="deleteTask(task)"
-                    >
-                      ❌
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            </div>
-          </div>
-        </div>
-        <div class="col"></div>
-      </div>
-    </div>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="editModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Aufgabe bearbeiten</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <input [(ngModel)]="taskObj.task_name" class="form-control" />
-        </div>
-        <button id="closeModalBtn" type="button" class="d-none" data-bs-dismiss="modal"></button>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
-          <button class="btn btn-success" (click)="editTask()">Speichern</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+<app-todo-list
+  [taskArr]="taskArr"
+  [(addTaskValue)]="addTaskValue"
+  [taskObj]="taskObj"
+  (add)="addTask()"
+  (edit)="editTask()"
+  (delete)="deleteTask($event)"
+  (set)="setTask($event)"
+  (toggle)="toggleCompleted($event)"
+  (updateTaskName)="updateTaskName($event)"
+></app-todo-list>
