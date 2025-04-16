@@ -32,6 +32,12 @@
 
                   <!-- Checkbox + Text -->
                   <div class="d-flex align-items-center flex-grow-1">
+                    <input
+                      type="checkbox"
+                      class="form-check-input me-2"
+                      [checked]="task.completed"
+                      (change)="toggle.emit(task)"
+                    />            
                     <span
                       [class.text-decoration-line-through]="task.completed"
                       [class.text-muted]="task.completed"

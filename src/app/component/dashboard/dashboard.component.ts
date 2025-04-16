@@ -101,6 +101,7 @@ deleteTask(etask : Task) {
 }
 
 toggleCompleted(task: Task) {
+  task.completed = !task.completed; 
   this.crudService.editTask(task).subscribe({
     next: () => this.ngOnInit(),
     error: () => alert('Konnte Status nicht speichern')
